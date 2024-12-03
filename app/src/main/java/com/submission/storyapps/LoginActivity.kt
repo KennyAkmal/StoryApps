@@ -3,6 +3,7 @@ package com.submission.storyapps
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.submission.storyapps.databinding.ActivityLoginBinding
 import com.submission.storyapps.model.LoginRequest
@@ -25,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-
+        // Check jika user sudah login
         if (sessionManager.isLoggedIn()) {
             navigateToMain()
             return
@@ -38,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser(email, password)
             } else {
-                Toast.makeText(this, "Username dan password tidak boleh kosong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Email dan password tidak boleh kosong", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -50,7 +51,8 @@ class LoginActivity : AppCompatActivity() {
         apiService.userLogin(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.isSuccessful) {
-                    val token = response.body()?.token
+                    val loginResult = response.body()?.loginResult
+                    val token = loginResult?.token
                     if (token != null) {
                         sessionManager.saveLoginSession(token)
                         Toast.makeText(this@LoginActivity, "Login berhasil!", Toast.LENGTH_SHORT).show()
@@ -59,12 +61,15 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
                     }
                 } else {
+                    val errorBody = response.errorBody()?.string()
                     Toast.makeText(this@LoginActivity, "Login gagal: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Log.e("LoginActivity", "Error body: $errorBody")
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Toast.makeText(this@LoginActivity, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("LoginActivity", "Login gagal: ${t.message}", t)
             }
         })
     }

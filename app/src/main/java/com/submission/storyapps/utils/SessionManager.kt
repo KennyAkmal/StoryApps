@@ -28,4 +28,11 @@ class SessionManager(context: Context) {
     fun getToken(): String? {
         return sharedPreferences.getString("TOKEN", null)
     }
+
+    fun clearLoginSession() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
 }
