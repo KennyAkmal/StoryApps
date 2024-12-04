@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.submission.storyapps.AddStoryActivity
-import com.submission.storyapps.LoginActivity
-import com.submission.storyapps.databinding.FragmentDashboardBinding
+import com.submission.storyapps.ui.story.AddStoryActivity
+import com.submission.storyapps.ui.login.LoginActivity
 import com.submission.storyapps.databinding.FragmentHomeBinding
 import com.submission.storyapps.utils.SessionManager
 
@@ -33,7 +30,7 @@ class HomeFragment : Fragment() {
             navigateToAddStory()
         }
 
-        binding.logout.setOnClickListener {
+        binding.actionLogout.setOnClickListener {
             logoutUser()
         }
 
@@ -47,7 +44,7 @@ class HomeFragment : Fragment() {
 
     private fun logoutUser() {
         sessionManager.clearLoginSession()
-        Toast.makeText(requireContext(), "Logout berhasil!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Logout berhasil", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

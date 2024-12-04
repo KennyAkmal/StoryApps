@@ -1,10 +1,11 @@
-package com.submission.storyapps
+package com.submission.storyapps.ui.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.submission.storyapps.MainActivity
 import com.submission.storyapps.databinding.ActivityLoginBinding
 import com.submission.storyapps.model.LoginRequest
 import com.submission.storyapps.model.LoginResponse
@@ -20,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.submission.storyapps.AdapterStory
-import com.submission.storyapps.AddStoryActivity
-import com.submission.storyapps.LoginActivity
+import com.submission.storyapps.adapter.AdapterStory
+import com.submission.storyapps.ui.detail.DetailActivity
 import com.submission.storyapps.databinding.FragmentDashboardBinding
 import com.submission.storyapps.model.Story
 import com.submission.storyapps.model.StoryResponse
 import com.submission.storyapps.network.ApiClient
-import com.submission.storyapps.utils.SessionManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,7 +36,7 @@ class DashboardFragment : Fragment() {
 
     private fun fetchStories() {
         val apiService = ApiClient.create(requireContext())
-        apiService.getAllStories(page = 1, size = 10).enqueue(object : Callback<StoryResponse> {
+        apiService.getAllStories().enqueue(object : Callback<StoryResponse> {
             override fun onResponse(call: Call<StoryResponse>, response: Response<StoryResponse>) {
                 if (response.isSuccessful) {
                     val stories = response.body()?.listStory ?: emptyList()
@@ -55,7 +54,25 @@ class DashboardFragment : Fragment() {
 
     private fun setupRecyclerView(stories: List<Story>) {
         binding.rvStory.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvStory.adapter = AdapterStory(stories)
+        binding.rvStory.adapter = AdapterStory(stories) { story, sharedImageView ->
+            val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                putExtra(DetailActivity.EXTRA_STORY, story)
+            }
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                requireActivity(),
+                sharedImageView,
+                sharedImageView.transitionName
+            )
+
+            startActivity(intent, options.toBundle())
+        }
+    }
+
+    private fun navigateToDetail(story: Story) {
+        val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+            putExtra(DetailActivity.EXTRA_STORY, story)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

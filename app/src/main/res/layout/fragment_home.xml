@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:text="Homepage"
+        style="@style/titlepoppins"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <GridLayout
         android:id="@+id/gridMenu"
         android:layout_width="match_parent"
@@ -16,7 +28,7 @@
         android:rowCount="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/addStory"
@@ -39,9 +51,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="8dp"/>
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/choosepicture" />
 
                 <TextView
+                    style="@style/normaltemplate15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -50,7 +64,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/logout"
+            android:id="@+id/action_logout"
             android:layout_width="130dp"
             android:layout_height="100dp"
             android:layout_row="1"
@@ -70,14 +84,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="8dp" />
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/logout"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
                     android:text="Log out"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    style="@style/normaltemplate15"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </GridLayout>

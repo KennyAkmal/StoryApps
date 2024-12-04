@@ -20,10 +20,10 @@ object ApiClient {
                     .build()
                 chain.proceed(request)
             }
-            .connectTimeout(30, TimeUnit.SECONDS) // Timeout koneksi 30 detik
-            .readTimeout(30, TimeUnit.SECONDS)    // Timeout membaca response 30 detik
-            .writeTimeout(30, TimeUnit.SECONDS)   // Timeout menulis request 30 detik
-            .retryOnConnectionFailure(true)       // Aktifkan retry otomatis
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
             .build()
 
         return Retrofit.Builder()
