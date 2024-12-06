@@ -28,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
         sessionManager = SessionManager(this)
 
-        // Check jika user sudah login
         if (sessionManager.isLoggedIn()) {
             navigateToMain()
             return

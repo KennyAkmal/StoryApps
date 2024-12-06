@@ -12,7 +12,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="16dp"
         style="@style/titlepoppins"
-        android:text="Choose picture"
+        android:text="@string/choose_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,31 +27,32 @@
         android:src="@drawable/choosepicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        android:contentDescription="@string/choose_picture" />
 
     <EditText
         android:id="@+id/ed_add_description"
         style="@style/normaltemplate15"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:hint="@string/description"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="16dp"
         android:background="@drawable/textbox"
         android:gravity="top"
         android:padding="8dp"
-        android:text="sadsa"
         app:layout_constraintBottom_toTopOf="@+id/button_add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:text="Deskripsi"
+        android:text="@string/deskripsi"
         style="@style/titlepoppins"
         android:layout_marginVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +67,7 @@
         android:layout_marginVertical="8dp"
         android:paddingHorizontal="40dp"
         android:background="@drawable/custombtn"
-        android:text="Choose picture"
+        android:text="@string/choose_picture"
         style="@style/poppinsBoldWhite17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPreviewImage" />
@@ -79,7 +80,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="16dp"
         android:background="@drawable/custombtn"
-        android:text="Upload Story"
+        android:text="@string/upload_story"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>

@@ -1,7 +1,7 @@
 package com.submission.storyapps.adapter
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,7 +10,7 @@ import com.submission.storyapps.model.Story
 
 class AdapterStory(
     private val stories: List<Story>,
-    private val onItemClicked: (Story, View) -> Unit
+    private val onItemClicked: (Story) -> Unit
 ) : RecyclerView.Adapter<AdapterStory.StoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryViewHolder {
@@ -20,6 +20,11 @@ class AdapterStory(
 
     override fun onBindViewHolder(holder: StoryViewHolder, position: Int) {
         holder.bind(stories[position])
+        val animator = ObjectAnimator.ofFloat(holder.itemView, "translationY", 300f, 0f).apply {
+            duration = 500
+            startDelay = (position * 100).toLong()
+        }
+        animator.start()
     }
 
     override fun getItemCount(): Int = stories.size
@@ -31,10 +36,11 @@ class AdapterStory(
             Glide.with(binding.root.context)
                 .load(story.photoUrl)
                 .into(binding.ivItemPhoto)
-            binding.ivItemPhoto.transitionName = "story_image_${story.id}"
+
             binding.root.setOnClickListener {
-                onItemClicked(story, binding.ivItemPhoto)
+                onItemClicked(story)
             }
         }
     }
 }
+

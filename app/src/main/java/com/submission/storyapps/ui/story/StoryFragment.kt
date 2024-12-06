@@ -1,17 +1,19 @@
-package com.submission.storyapps.ui.dashboard
+package com.submission.storyapps.ui.story
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.submission.storyapps.adapter.AdapterStory
 import com.submission.storyapps.ui.detail.DetailActivity
-import com.submission.storyapps.databinding.FragmentDashboardBinding
+import com.submission.storyapps.databinding.FragmentStoryBinding
 import com.submission.storyapps.model.Story
 import com.submission.storyapps.model.StoryResponse
 import com.submission.storyapps.network.ApiClient
@@ -19,9 +21,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DashboardFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+class StoryFragment : Fragment() {
+
+    private var _binding: FragmentStoryBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -29,9 +32,21 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentStoryBinding.inflate(inflater, container, false)
         fetchStories()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resetRecyclerViewAnimation()
+        fetchStories()
+    }
+
+    private fun resetRecyclerViewAnimation() {
+        binding.rvStory.alpha = 1f
+        binding.rvStory.scaleX = 1f
+        binding.rvStory.scaleY = 1f
     }
 
     private fun fetchStories() {
@@ -54,25 +69,24 @@ class DashboardFragment : Fragment() {
 
     private fun setupRecyclerView(stories: List<Story>) {
         binding.rvStory.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvStory.adapter = AdapterStory(stories) { story, sharedImageView ->
-            val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-                putExtra(DetailActivity.EXTRA_STORY, story)
-            }
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                requireActivity(),
-                sharedImageView,
-                sharedImageView.transitionName
-            )
-
-            startActivity(intent, options.toBundle())
+        binding.rvStory.adapter = AdapterStory(stories) { story ->
+            navigateToDetail(story)
         }
     }
 
     private fun navigateToDetail(story: Story) {
-        val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_STORY, story)
-        }
-        startActivity(intent)
+        val animation = ObjectAnimator.ofFloat(binding.rvStory, "alpha", 1f, 0f)
+        animation.duration = 300
+        animation.start()
+
+        animation.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                    putExtra(DetailActivity.EXTRA_STORY, story)
+                }
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -80,3 +94,4 @@ class DashboardFragment : Fragment() {
         _binding = null
     }
 }
+

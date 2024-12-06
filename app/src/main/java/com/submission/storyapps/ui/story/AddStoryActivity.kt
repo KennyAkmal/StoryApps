@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.submission.storyapps.databinding.ActivityAddStoryBinding
 import com.submission.storyapps.model.AddStoryResponse
 import com.submission.storyapps.network.ApiClient
+import com.submission.storyapps.utils.FileUtils
 import com.submission.storyapps.utils.SessionManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -60,7 +61,7 @@ class AddStoryActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
             data?.data?.let { uri ->
-                selectedImageFile = getFileFromUri(uri)
+                selectedImageFile = FileUtils.uriToFile(uri, this)
                 binding.ivPreviewImage.setImageBitmap(BitmapFactory.decodeFile(selectedImageFile?.path))
             }
         }

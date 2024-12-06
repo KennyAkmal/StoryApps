@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
@@ -17,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
-            android:text="Nama"
+            android:text="@string/nama"
             style="@style/titlepoppins"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +29,7 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
-            android:text="test desc"
+            android:text="@string/description"
             style="@style/normaltemplate15"
             android:textAlignment="textStart"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,10 +42,10 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginVertical="8dp"
-            android:transitionName="iv_item_transition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_home_black_24dp" />
+            app:srcCompat="@drawable/ic_home_black_24dp"
+            android:contentDescription="@string/story_picture" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
