@@ -30,4 +30,6 @@
     <string name="add_story_image">Add Story Image</string>
     <string name="logout_image">Logout Image</string>
     <string name="story_list">Story List</string>
+    <string name="password_too_short">Password tidak boleh kurang dari 8 karakter</string>
+    <string name="password_hint">Masukkan password Anda</string>
 </resources>

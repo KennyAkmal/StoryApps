@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Toast
 import com.submission.storyapps.databinding.ActivityRegisterBinding
 import com.submission.storyapps.model.RegisterRequest
@@ -25,18 +23,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.edRegisterPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null && s.length < 8) {
-                    binding.edRegisterPassword.error = "Password tidak boleh kurang dari 8 karakter"
-                } else {
-                    binding.edRegisterPassword.error = null
-                }
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
         binding.btnRegister.setOnClickListener {
             val name = binding.edRegisterName.text.toString().trim()
             val email = binding.edRegisterEmail.text.toString().trim()
@@ -47,7 +33,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun validateInput(name: String, email: String, password: String): Boolean {
         return when {
             name.isEmpty() -> {

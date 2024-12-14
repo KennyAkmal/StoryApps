@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.submission.storyapps.databinding.ActivityAddStoryBinding
 import com.submission.storyapps.model.AddStoryResponse
 import com.submission.storyapps.network.ApiClient
-import com.submission.storyapps.utils.FileUtils
 import com.submission.storyapps.utils.SessionManager
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -20,6 +19,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 
@@ -61,7 +61,7 @@ class AddStoryActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SELECT_IMAGE && resultCode == RESULT_OK) {
             data?.data?.let { uri ->
-                selectedImageFile = FileUtils.uriToFile(uri, this)
+                selectedImageFile = getFileFromUri(uri)
                 binding.ivPreviewImage.setImageBitmap(BitmapFactory.decodeFile(selectedImageFile?.path))
             }
         }
@@ -95,10 +95,23 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun compressImage(file: File): File {
         val bitmap = BitmapFactory.decodeFile(file.path)
+        var quality = 100
         val compressedFile = File(cacheDir, "compressed_${file.name}")
-        compressedFile.outputStream().use { outputStream ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-        }
+
+        do {
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream)
+            val byteArray = outputStream.toByteArray()
+
+            if (byteArray.size <= MAX_FILE_SIZE) {
+                compressedFile.outputStream().use {
+                    it.write(byteArray)
+                }
+                break
+            }
+
+            quality -= 10
+        } while (quality > 10)
         return compressedFile
     }
 
@@ -131,5 +144,6 @@ class AddStoryActivity : AppCompatActivity() {
 
     companion object {
         private const val REQUEST_CODE_SELECT_IMAGE = 100
+        private const val MAX_FILE_SIZE = 1_000_000
     }
 }
