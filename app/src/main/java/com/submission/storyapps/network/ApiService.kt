@@ -23,7 +23,10 @@ interface ApiService {
     fun userLogin(@Body request: LoginRequest): Call<LoginResponse>
 
     @GET("stories")
-    fun getAllStories(): Call<StoryResponse>
+    suspend fun getAllStories(
+        @retrofit2.http.Query("page") page: Int,
+        @retrofit2.http.Query("size") size: Int
+    ): StoryResponse // Menggunakan return type langsung, bukan Call
 
     @Multipart
     @POST("stories")
@@ -31,6 +34,4 @@ interface ApiService {
         @Part("description") description: RequestBody,
         @Part photo: MultipartBody.Part?
     ): Call<AddStoryResponse>
-
-
 }
