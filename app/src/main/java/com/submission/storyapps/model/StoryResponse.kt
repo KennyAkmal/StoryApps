@@ -7,4 +7,3 @@ data class StoryResponse(
     val totalPages: Int?,
     val currentPage: Int?
 )
-

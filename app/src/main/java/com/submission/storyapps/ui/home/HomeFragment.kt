@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.submission.storyapps.StarterActivity
 import com.submission.storyapps.ui.story.AddStoryActivity
+import com.submission.storyapps.MapsActivity
+import com.submission.storyapps.StarterActivity
 import com.submission.storyapps.databinding.FragmentHomeBinding
 import com.submission.storyapps.utils.SessionManager
 
@@ -34,11 +35,20 @@ class HomeFragment : Fragment() {
             logoutUser()
         }
 
+        binding.menumap.setOnClickListener {
+            navigateToMap()
+        }
+
         return binding.root
     }
 
     private fun navigateToAddStory() {
         val intent = Intent(requireContext(), AddStoryActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToMap() {
+        val intent = Intent(requireContext(), MapsActivity::class.java)
         startActivity(intent)
     }
 

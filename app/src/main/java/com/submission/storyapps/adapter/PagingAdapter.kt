@@ -1,5 +1,6 @@
 package com.submission.storyapps.adapter
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -22,6 +23,11 @@ class PagingAdapter(
         val story = getItem(position)
         if (story != null) {
             holder.bind(story)
+            val animator = ObjectAnimator.ofFloat(holder.itemView, "translationY", 300f, 0f).apply {
+                duration = 500
+                startDelay = (position * 100).toLong()
+            }
+            animator.start()
         }
     }
 

@@ -54,12 +54,12 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val loginResult = response.body()?.loginResult
                     val token = loginResult?.token
-                    if (token != null) {
-                        sessionManager.saveLoginSession(token)
+                    if (token != null && loginResult?.name != null) {
+                        sessionManager.saveLoginSession(token, loginResult.name)
                         Toast.makeText(this@LoginActivity, "Login berhasil!", Toast.LENGTH_SHORT).show()
                         navigateToMain()
                     } else {
-                        Toast.makeText(this@LoginActivity, "Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Token atau nama pengguna tidak ditemukan!", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()

@@ -1,5 +1,8 @@
 package com.submission.storyapps.ui.story
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +16,7 @@ import com.submission.storyapps.adapter.PagingAdapter
 import com.submission.storyapps.databinding.FragmentStoryBinding
 import com.submission.storyapps.model.Story
 import com.submission.storyapps.network.ApiClient
-import com.submission.storyapps.pagging.Repo
+import com.submission.storyapps.pagging.RepoImpl
 import com.submission.storyapps.ui.detail.DetailActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,7 +33,7 @@ class StoryFragment : Fragment() {
     ): View {
         _binding = FragmentStoryBinding.inflate(inflater, container, false)
         val apiService = ApiClient.create(requireContext())
-        val repository = Repo(apiService)
+        val repository = RepoImpl(apiService)
         val factory = ViewModelStoryFactory(repository)
 
         viewModel = ViewModelProvider(this, factory)[ViewModelStory::class.java]
@@ -38,6 +41,17 @@ class StoryFragment : Fragment() {
         observeData()
 
         return binding.root
+    }
+
+    private fun resetRecyclerViewAnimation() {
+        binding.rvStory.alpha = 1f
+        binding.rvStory.scaleX = 1f
+        binding.rvStory.scaleY = 1f
+    }
+
+    override fun onResume() {
+        super.onResume()
+        resetRecyclerViewAnimation()
     }
 
     private fun setupRecyclerView() {
@@ -57,10 +71,18 @@ class StoryFragment : Fragment() {
     }
 
     private fun navigateToDetail(story: Story) {
-        val intent = Intent(requireContext(), DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_STORY, story)
-        }
-        startActivity(intent)
+        val animation = ObjectAnimator.ofFloat(binding.rvStory, "alpha", 1f, 0f)
+        animation.duration = 300
+        animation.start()
+
+        animation.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                val intent = Intent(requireContext(), DetailActivity::class.java).apply {
+                    putExtra(DetailActivity.EXTRA_STORY, story)
+                }
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onDestroyView() {
